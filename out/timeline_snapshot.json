@@ -1,0 +1,300 @@
+{
+  "case-H02E-anna": {
+    "case": {
+      "case_id": "case-H02E-anna",
+      "patient": "Anna L.",
+      "home_country": "SE",
+      "procedure": "Prim ledprot höft U",
+      "drg": "H02E",
+      "created_at": 1791029714.1341288,
+      "status": "open",
+      "payload": "{\"route\": \"S2 / Regulation 883/2004\", \"out_of_pocket_eur\": 250.0, \"advantage_over_alternative_eur\": 0.0, \"upfront_eur\": 250.0, \"capital_at_risk_avoided_eur\": 5116.28, \"decided_on\": \"up-front capital required (out-of-pocket is equal)\", \"days_saved\": 219.0}"
+    },
+    "loops": [
+      {
+        "loop_id": "case-H02E-anna:auth",
+        "case_id": "case-H02E-anna",
+        "loop_type": "filing",
+        "description": "File S2 prior-authorisation application with the home region",
+        "trigger": "immediate",
+        "owner": "patient+agent",
+        "closure": "authorisation_granted",
+        "status": "closed",
+        "opened_at": 1791029714.134885,
+        "closed_at": 1791029714.190115,
+        "evidence": "closure condition met"
+      },
+      {
+        "loop_id": "case-H02E-anna:decision",
+        "case_id": "case-H02E-anna",
+        "loop_type": "timed",
+        "description": "Chase the authority if no decision is returned",
+        "trigger": "days_elapsed:30",
+        "owner": "agent",
+        "closure": "decision_received",
+        "status": "escalated",
+        "opened_at": 1791029714.135251,
+        "closed_at": null,
+        "evidence": "due: 35 days elapsed"
+      },
+      {
+        "loop_id": "case-H02E-anna:wait-watch",
+        "case_id": "case-H02E-anna",
+        "loop_type": "conditional",
+        "description": "Re-check the domestic waiting time; entitlement depends on it",
+        "trigger": "home_wait_days > 90",
+        "owner": "agent",
+        "closure": "treated_or_wait_within_guarantee",
+        "status": "open",
+        "opened_at": 1791029714.135565,
+        "closed_at": null,
+        "evidence": "RETRACTED: home_wait_days=60 no longer exceeds 90"
+      },
+      {
+        "loop_id": "case-H02E-anna:tariff-watch",
+        "case_id": "case-H02E-anna",
+        "loop_type": "conditional",
+        "description": "Re-check tariffs; a change alters which route pays better",
+        "trigger": "tariff_change_pct > 5",
+        "owner": "agent",
+        "closure": "treatment_completed",
+        "status": "open",
+        "opened_at": 1791029714.1358669,
+        "closed_at": null,
+        "evidence": null
+      },
+      {
+        "loop_id": "case-H02E-anna:appeal",
+        "case_id": "case-H02E-anna",
+        "loop_type": "filing",
+        "description": "Prepare an Art. 20(2) appeal in case authorisation is refused",
+        "trigger": "on_refusal",
+        "owner": "agent",
+        "closure": "authorisation_granted",
+        "status": "closed",
+        "opened_at": 1791029714.137353,
+        "closed_at": 1791029714.1905248,
+        "evidence": "closure condition met"
+      }
+    ],
+    "events": [
+      {
+        "event_id": 35,
+        "loop_id": null,
+        "case_id": "case-H02E-anna",
+        "at": 1791029714.134403,
+        "action": "case_opened",
+        "detail": "procedure: Prim ledprot höft U"
+      },
+      {
+        "event_id": 36,
+        "loop_id": "case-H02E-anna:auth",
+        "case_id": "case-H02E-anna",
+        "at": 1791029714.1350348,
+        "action": "loop_opened",
+        "detail": "type: filing, trigger: immediate"
+      },
+      {
+        "event_id": 37,
+        "loop_id": "case-H02E-anna:decision",
+        "case_id": "case-H02E-anna",
+        "at": 1791029714.135355,
+        "action": "loop_opened",
+        "detail": "type: timed, trigger: days_elapsed:30"
+      },
+      {
+        "event_id": 38,
+        "loop_id": "case-H02E-anna:wait-watch",
+        "case_id": "case-H02E-anna",
+        "at": 1791029714.1356668,
+        "action": "loop_opened",
+        "detail": "type: conditional, trigger: home_wait_days > 90"
+      },
+      {
+        "event_id": 39,
+        "loop_id": "case-H02E-anna:tariff-watch",
+        "case_id": "case-H02E-anna",
+        "at": 1791029714.136052,
+        "action": "loop_opened",
+        "detail": "type: conditional, trigger: tariff_change_pct > 5"
+      },
+      {
+        "event_id": 40,
+        "loop_id": "case-H02E-anna:appeal",
+        "case_id": "case-H02E-anna",
+        "at": 1791029714.13745,
+        "action": "loop_opened",
+        "detail": "type: filing, trigger: on_refusal"
+      },
+      {
+        "event_id": 41,
+        "loop_id": "case-H02E-anna:wait-watch",
+        "case_id": null,
+        "at": 1791029714.188977,
+        "action": "loop_escalated",
+        "detail": "reason: home_wait_days=240 exceeds 90"
+      },
+      {
+        "event_id": 42,
+        "loop_id": "case-H02E-anna:decision",
+        "case_id": null,
+        "at": 1791029714.189688,
+        "action": "loop_escalated",
+        "detail": "reason: due: 35 days elapsed"
+      },
+      {
+        "event_id": 43,
+        "loop_id": "case-H02E-anna:auth",
+        "case_id": null,
+        "at": 1791029714.190271,
+        "action": "loop_closed",
+        "detail": "evidence: closure condition met"
+      },
+      {
+        "event_id": 44,
+        "loop_id": "case-H02E-anna:appeal",
+        "case_id": null,
+        "at": 1791029714.190623,
+        "action": "loop_closed",
+        "detail": "evidence: closure condition met"
+      },
+      {
+        "event_id": 45,
+        "loop_id": "case-H02E-anna:wait-watch",
+        "case_id": null,
+        "at": 1791029714.191194,
+        "action": "loop_retracted",
+        "detail": "reason: home_wait_days=60 no longer exceeds 90"
+      }
+    ]
+  },
+  "draft-test": {
+    "case": {
+      "case_id": "draft-test",
+      "patient": "Anna L.",
+      "home_country": "SE",
+      "procedure": "Prim ledprot höft U",
+      "drg": "H02E",
+      "created_at": 1791027931.061465,
+      "status": "open",
+      "payload": "{\"route\": \"S2 / Regulation 883/2004\", \"out_of_pocket_eur\": 250.0, \"advantage_over_alternative_eur\": 0.0, \"upfront_eur\": 250.0, \"capital_at_risk_avoided_eur\": 5116.28, \"decided_on\": \"up-front capital required (out-of-pocket is equal)\", \"days_saved\": 219.0}"
+    },
+    "loops": [
+      {
+        "loop_id": "draft-test:auth",
+        "case_id": "draft-test",
+        "loop_type": "filing",
+        "description": "File S2 prior-authorisation application with the home region",
+        "trigger": "immediate",
+        "owner": "patient+agent",
+        "closure": "authorisation_granted",
+        "status": "open",
+        "opened_at": 1791027931.062428,
+        "closed_at": null,
+        "evidence": null
+      },
+      {
+        "loop_id": "draft-test:decision",
+        "case_id": "draft-test",
+        "loop_type": "timed",
+        "description": "Chase the authority if no decision is returned",
+        "trigger": "days_elapsed:30",
+        "owner": "agent",
+        "closure": "decision_received",
+        "status": "open",
+        "opened_at": 1791027931.062884,
+        "closed_at": null,
+        "evidence": null
+      },
+      {
+        "loop_id": "draft-test:wait-watch",
+        "case_id": "draft-test",
+        "loop_type": "conditional",
+        "description": "Re-check the domestic waiting time; entitlement depends on it",
+        "trigger": "home_wait_days > 90",
+        "owner": "agent",
+        "closure": "treated_or_wait_within_guarantee",
+        "status": "open",
+        "opened_at": 1791027931.0634649,
+        "closed_at": null,
+        "evidence": null
+      },
+      {
+        "loop_id": "draft-test:tariff-watch",
+        "case_id": "draft-test",
+        "loop_type": "conditional",
+        "description": "Re-check tariffs; a change alters which route pays better",
+        "trigger": "tariff_change_pct > 5",
+        "owner": "agent",
+        "closure": "treatment_completed",
+        "status": "open",
+        "opened_at": 1791027931.063939,
+        "closed_at": null,
+        "evidence": null
+      },
+      {
+        "loop_id": "draft-test:appeal",
+        "case_id": "draft-test",
+        "loop_type": "filing",
+        "description": "Prepare an Art. 20(2) appeal in case authorisation is refused",
+        "trigger": "on_refusal",
+        "owner": "agent",
+        "closure": "authorisation_granted",
+        "status": "open",
+        "opened_at": 1791027931.0644102,
+        "closed_at": null,
+        "evidence": null
+      }
+    ],
+    "events": [
+      {
+        "event_id": 29,
+        "loop_id": null,
+        "case_id": "draft-test",
+        "at": 1791027931.061723,
+        "action": "case_opened",
+        "detail": "procedure: Prim ledprot höft U"
+      },
+      {
+        "event_id": 30,
+        "loop_id": "draft-test:auth",
+        "case_id": "draft-test",
+        "at": 1791027931.06256,
+        "action": "loop_opened",
+        "detail": "type: filing, trigger: immediate"
+      },
+      {
+        "event_id": 31,
+        "loop_id": "draft-test:decision",
+        "case_id": "draft-test",
+        "at": 1791027931.0630121,
+        "action": "loop_opened",
+        "detail": "type: timed, trigger: days_elapsed:30"
+      },
+      {
+        "event_id": 32,
+        "loop_id": "draft-test:wait-watch",
+        "case_id": "draft-test",
+        "at": 1791027931.0636,
+        "action": "loop_opened",
+        "detail": "type: conditional, trigger: home_wait_days > 90"
+      },
+      {
+        "event_id": 33,
+        "loop_id": "draft-test:tariff-watch",
+        "case_id": "draft-test",
+        "at": 1791027931.064072,
+        "action": "loop_opened",
+        "detail": "type: conditional, trigger: tariff_change_pct > 5"
+      },
+      {
+        "event_id": 34,
+        "loop_id": "draft-test:appeal",
+        "case_id": "draft-test",
+        "at": 1791027931.064543,
+        "action": "loop_opened",
+        "detail": "type: filing, trigger: on_refusal"
+      }
+    ]
+  }
+}
