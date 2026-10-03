@@ -1,0 +1,74 @@
+[
+  {
+    "id": "cataract",
+    "title": "Cataract surgery, one eye",
+    "operation": "Cataract surgery with lens implant",
+    "blurb": "Day surgery. On the list since April, offered a date in January.",
+    "patient": "Anna Testsson",
+    "home": "SE",
+    "statement": "My doctor recommended a cataract operation on my right eye. I have been waiting since April and I cannot afford a large upfront payment.",
+    "today": "2026-10-03",
+    "documents": [
+      "cataract_1_referral_SAMPLE.pdf",
+      "cataract_2_waiting_list_letter_SAMPLE.pdf",
+      "cataract_3_clinic_offer_A_SAMPLE.pdf",
+      "cataract_4_clinic_offer_B_SAMPLE.pdf"
+    ],
+    "reply": "cataract_5_clinic_reply_A_SAMPLE.pdf",
+    "reply_clinic": "Okulistyczna Klinika Przykladowa"
+  },
+  {
+    "id": "hip",
+    "title": "Hip replacement",
+    "operation": "Primary total hip replacement",
+    "blurb": "Inpatient surgery. Sixteen months on the list and a five-figure bill abroad.",
+    "patient": "Erik Provsson",
+    "home": "SE",
+    "statement": "My doctor recommended a hip replacement. I have been on the waiting list since February and I cannot pay thousands of euros up front.",
+    "today": "2026-10-03",
+    "documents": [
+      "hip_1_referral_SAMPLE.pdf",
+      "hip_2_waiting_list_letter_SAMPLE.pdf",
+      "hip_3_clinic_offer_A_SAMPLE.pdf",
+      "hip_4_clinic_offer_B_SAMPLE.pdf"
+    ],
+    "reply": "hip_5_clinic_reply_A_SAMPLE.pdf",
+    "reply_clinic": "Klaipedos Ortopedijos Centras"
+  },
+  {
+    "id": "hernia",
+    "title": "Inguinal hernia repair",
+    "operation": "Unilateral inguinal hernia repair, day case",
+    "blurb": "Day surgery. A cheap clinic abroad, but the money is needed first.",
+    "patient": "Johan Exempelsson",
+    "home": "SE",
+    "statement": "My surgeon says I need an operation for an inguinal hernia. I have been waiting since March and I cannot pay the clinic first and wait months for a refund.",
+    "today": "2026-10-03",
+    "documents": [
+      "hernia_1_referral_SAMPLE.pdf",
+      "hernia_2_waiting_list_letter_SAMPLE.pdf",
+      "hernia_3_clinic_offer_A_SAMPLE.pdf",
+      "hernia_4_clinic_offer_B_SAMPLE.pdf"
+    ],
+    "reply": "hernia_5_clinic_reply_A_SAMPLE.pdf",
+    "reply_clinic": "Vzorova Chirurgicka Klinika"
+  },
+  {
+    "id": "spine",
+    "title": "Lumbar spinal fusion",
+    "operation": "Two-level lumbar spinal fusion",
+    "blurb": "Major inpatient surgery. The gap left after reimbursement is the story.",
+    "patient": "Maria Testsdotter",
+    "home": "SE",
+    "statement": "My doctor has recommended a spinal fusion in my lower back. I have been waiting more than a year and I cannot put up a large sum of money in advance.",
+    "today": "2026-10-03",
+    "documents": [
+      "spine_1_referral_SAMPLE.pdf",
+      "spine_2_waiting_list_letter_SAMPLE.pdf",
+      "spine_3_clinic_offer_A_SAMPLE.pdf",
+      "spine_4_clinic_offer_B_SAMPLE.pdf"
+    ],
+    "reply": "spine_5_clinic_reply_A_SAMPLE.pdf",
+    "reply_clinic": "Beispiel Wirbelsäulenklinik"
+  }
+]
