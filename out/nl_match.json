@@ -1,0 +1,11 @@
+{
+ "H02E": {
+  "benefit": "Initiële totale heupvervanging (orthopedie)",
+  "confidence": 0.95,
+  "reasoning": "Both describe primary/initial total replacement of the hip joint."
+ },
+ "T59C": {
+  "benefit": null,
+  "reason": "no match proposed"
+ }
+}

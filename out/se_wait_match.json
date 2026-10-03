@@ -1,0 +1,21 @@
+{
+ "H02E": {
+  "serviceId": 161,
+  "confidence": 0.95,
+  "reasoning": "Candidate 161 represents primary hip joint prosthesis/replacement, distinguishing it from revision (protesbyte, 163)."
+ },
+ "B12Q": {
+  "serviceId": 208,
+  "confidence": 0.95,
+  "reasoning": "Unilateral lens surgery predominantly refers to cataract surgery, which corresponds directly to the waiting list category 'Ögon — Gråstarr'."
+ },
+ "F24O": {
+  "serviceId": 150,
+  "confidence": 0.95,
+  "reasoning": "The source DRG code represents surgical repair of an inguinal or femoral hernia, which directly corresponds to 'Kirurgi — Ljumskbråck' (groin/inguinal hernia surgery)."
+ },
+ "H21E": {
+  "serviceId": null,
+  "reason": "no match proposed"
+ }
+}

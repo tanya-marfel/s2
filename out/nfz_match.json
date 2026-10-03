@@ -1,0 +1,39 @@
+{
+ "H02E": {
+  "benefit": "ENDOPROTEZOPLASTYKA STAWU BIODROWEGO",
+  "terms": [
+   "endoprotez",
+   "biodrow",
+   "alloplastyk"
+  ],
+  "confidence": 0.9,
+  "reasoning": "ENDOPROTEZOPLASTYKA STAWU BIODROWEGO is the primary hip replacement procedure, matching the clinical intent of the source code."
+ },
+ "W01E": {
+  "benefit": null,
+  "reason": "no NFZ benefit name contains ['tracheostom', 'tracheotom', 'tchawic']",
+  "terms": [
+   "tracheostom",
+   "tracheotom",
+   "tchawic"
+  ]
+ },
+ "T59C": {
+  "benefit": null,
+  "terms": [
+   "psychiatr",
+   "psychiczn",
+   "stacjonar"
+  ],
+  "reason": "no match proposed"
+ },
+ "T59E": {
+  "benefit": null,
+  "terms": [
+   "psychiatr",
+   "stacjonar",
+   "psychiczn"
+  ],
+  "reason": "no match proposed"
+ }
+}
