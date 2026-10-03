@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S2 — get the treatment you're entitled to</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1b2030;--muted:#677087;--line:#e4e7f0;--blue:#1f4bd8;--blue-d:#173aa8;
+  --blue-s:#eaf0ff;--green:#0f7a4a;--green-s:#e7f6ee;--amber:#9a6200;--amber-s:#fff4d9;--red:#b3261e;--red-s:#fdecea;
+  --r:16px;--shadow:0 1px 2px rgba(20,30,60,.05),0 8px 24px rgba(20,30,60,.06)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top .in{max-width:860px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:18px}
+.brand{font:800 22px/1 ui-sans-serif,-apple-system,sans-serif;letter-spacing:-.03em}.brand b{color:var(--blue)}
+.steps{display:flex;gap:6px;margin-left:auto;font-size:13px}
+.steps span{padding:5px 12px;border-radius:99px;color:var(--muted);background:transparent;white-space:nowrap}
+.steps span.on{background:var(--blue-s);color:var(--blue);font-weight:700}.steps span.done{color:var(--green);font-weight:600}
+@media(max-width:700px){.steps span:not(.on){display:none}}
+main{max-width:860px;margin:0 auto;padding:34px 22px 140px}
+.hero h1{font-size:34px;line-height:1.15;letter-spacing:-.03em;margin:8px 0 10px}
+.hero p{font-size:18px;color:var(--muted);margin:0 0 4px;max-width:640px}
+section{margin-top:26px;scroll-margin-top:84px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;border:1px solid var(--line)}
+.card h2{font-size:22px;letter-spacing:-.02em;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 16px}
+textarea{width:100%;min-height:110px;padding:16px 18px;border:2px solid var(--line);border-radius:14px;font:inherit;font-size:18px;resize:vertical;background:#fff;color:var(--ink)}
+textarea:focus{outline:none;border-color:var(--blue)}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:14px 26px;border-radius:12px;border:none;background:var(--blue);color:#fff;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--blue-d)}.btn:disabled{opacity:.5;cursor:default}
+.btn.sec{background:#fff;color:var(--blue);border:2px solid var(--line)}.btn.sec:hover{background:var(--blue-s)}
+.btn.small{padding:8px 14px;font-size:14px;border-radius:10px}
+.btn.big{font-size:18px;padding:16px 30px}
+.link{background:none;border:none;color:var(--blue);cursor:pointer;font:inherit;padding:0;text-decoration:underline}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.mic{width:54px;height:54px;border-radius:50%;padding:0;font-size:22px;display:inline-flex;align-items:center;justify-content:center}
+.mic.on{background:var(--red);animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(179,38,30,.4)}100%{box-shadow:0 0 0 14px rgba(179,38,30,0)}}
+.muted{color:var(--muted)}.small{font-size:13.5px}
+.ok-line{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:16.5px}
+.ok-line .t{flex:none;width:24px;height:24px;border-radius:50%;background:var(--green-s);color:var(--green);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-top:1px}
+.ok-line .t.warn{background:var(--amber-s);color:var(--amber)}.ok-line .t.bad{background:var(--red-s);color:var(--red)}.ok-line .t.na{background:#eef0f6;color:var(--muted)}
+details>summary{cursor:pointer;color:var(--blue);font-size:13.5px;margin-top:4px;list-style:none}
+details>summary::-webkit-details-marker{display:none}details>summary:before{content:"▸ "}details[open]>summary:before{content:"▾ "}
+.src{font-size:13px;color:var(--muted);background:#f3f5fa;border-radius:8px;padding:8px 10px;margin-top:6px}
+.drop{border:2px dashed #c7cde0;border-radius:14px;padding:26px;text-align:center;color:var(--muted);background:#fafbff;cursor:pointer;transition:.15s}
+.drop.hot,.drop:hover{border-color:var(--blue);background:var(--blue-s);color:var(--blue)}
+.drop b{display:block;color:var(--ink);font-size:17px;margin-bottom:2px}
+.docs{display:grid;gap:12px;margin-top:16px}
+.doc{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.doc .h{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.doc .kind{font-weight:700}.doc .file{color:var(--muted);font-size:13px}
+.doc ul{margin:8px 0 0;padding-left:20px}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--blue-s);color:var(--blue)}
+.pill.sample{background:var(--red-s);color:var(--red);letter-spacing:.04em}
+.pill.green{background:var(--green-s);color:var(--green)}.pill.amber{background:var(--amber-s);color:var(--amber)}.pill.red{background:var(--red-s);color:var(--red)}
+.working{display:flex;gap:12px;align-items:center;color:var(--muted);padding:6px 0}
+.spin{width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:sp 0.8s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.prog .item{display:flex;gap:12px;align-items:center;padding:6px 0;color:var(--muted)}
+.prog .item.done{color:var(--ink)}.prog .item .ic{width:22px;text-align:center}
+.answer{background:linear-gradient(135deg,#1f4bd8,#3a6bff);color:#fff;border-radius:20px;padding:28px;box-shadow:0 12px 32px rgba(31,75,216,.28)}
+.answer .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:700}
+.answer h2{font-size:27px;line-height:1.2;letter-spacing:-.02em;margin:6px 0 8px;color:#fff}
+.answer p{margin:0;opacity:.95;font-size:16.5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+@media(max-width:640px){.stats{grid-template-columns:1fr}}
+.stat{background:rgba(255,255,255,.14);border-radius:14px;padding:14px 16px}
+.stat .l{font-size:12.5px;opacity:.85}.stat .v{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-top:2px}.stat .n{font-size:12.5px;opacity:.85;margin-top:2px}
+.callout{border-radius:12px;padding:12px 16px;margin-top:14px;font-size:15px}
+.callout.amber{background:var(--amber-s);color:#6b4500}.callout.red{background:var(--red-s);color:#7d1b15}.callout.green{background:var(--green-s);color:#0b5a37}
+.answer .callout{background:rgba(255,255,255,.16);color:#fff}
+.why{margin:14px 0 0;padding:0;list-style:none}.why li{padding:6px 0 6px 28px;position:relative}
+.why li:before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+.clinics{display:grid;gap:16px;margin-top:16px}
+.clinic{border:1px solid var(--line);border-radius:16px;padding:20px;background:#fff}
+.clinic.best{border:2px solid var(--blue)}
+.clinic h3{margin:0;font-size:19px;letter-spacing:-.01em}
+.clinic .meta{color:var(--muted);font-size:14.5px;margin:2px 0 14px}
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.routes{grid-template-columns:1fr}}
+.route{background:#f8f9fd;border-radius:12px;padding:14px;border:1px solid transparent}
+.route.pick{background:var(--blue-s);border-color:var(--blue)}.route.no{opacity:.55}
+.route h4{margin:0 0 2px;font-size:15px}.route .what{font-size:13px;color:var(--muted);margin-bottom:8px}
+.ln{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:15px}.ln b{font-variant-numeric:tabular-nums}
+.ln.end{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:700}.ln.end b{font-size:20px}
+.route ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}
+.todo{display:grid;gap:2px}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin:6px 0 16px;flex-wrap:wrap}
+.tab{background:none;border:none;font:inherit;font-weight:600;color:var(--muted);padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.letter{white-space:pre-wrap;font:16px/1.7 ui-serif,Georgia,serif;background:#fffdf8;border:1px solid #efe8d6;border-radius:12px;padding:22px 24px}
+.pw-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.hide{display:none!important}
+.picker{margin-top:24px;border-top:1px solid var(--line);padding-top:18px}
+.picker-h{font-size:14px;color:var(--muted);margin-bottom:12px}
+.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:640px){.cases{grid-template-columns:1fr}}
+.case-b{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px 15px;cursor:pointer;font:inherit;transition:.15s}
+.case-b:hover{border-color:var(--blue);background:var(--blue-s)}
+.case-b.on{border-color:var(--blue);border-width:2px;background:var(--blue-s)}
+.case-b .t{font-weight:700;font-size:15.5px;display:block}
+.case-b .d{font-size:13px;color:var(--muted);margin-top:2px;display:block}
+.mail{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow);padding:0;overflow:hidden}
+.mail .bar{background:#f3f5fa;border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+.mail .bd{padding:22px}
+.treat{display:flex;gap:14px;align-items:flex-start;background:var(--blue-s);border-radius:14px;padding:14px 18px;margin-top:16px}
+.treat .ic{font-size:22px;line-height:1.2}
+.treat .tt{display:block;font-size:16.5px;font-weight:700;margin-bottom:2px}
+.when{background:#fff;border:1px dashed #cdd4e6;border-radius:10px;padding:9px 11px;margin-top:10px;font-size:13px;color:var(--muted)}
+.when b{display:block;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);margin-bottom:3px;font-weight:800}
+.when ul{margin:0;padding-left:16px}.when li{padding:1px 0}
+.route.pick .when{background:#fff}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:640px){.compare{grid-template-columns:1fr}}
+.compare>div{border-radius:12px;padding:14px}.compare .b{background:#f3f4f8}.compare .a{background:var(--green-s)}
+.compare .l{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.foot{margin-top:50px;text-align:center;font-size:13.5px;color:var(--muted)}
+.notice{font-size:13.5px;color:var(--muted);margin-top:10px}
+</style></head>
+<body>
+<div class="top"><div class="in">
+  <div class="brand">S<b>2</b></div>
+  <div class="steps" id="steps"><span data-s="1" class="on">1 · Your situation</span><span data-s="2">2 · Documents</span><span data-s="3">3 · Your options</span><span data-s="4">4 · Paperwork</span></div>
+</div></div>
+
+<main>
+<div class="hero">
+  <h1>Waiting too long for treatment?<br>Find your fastest route abroad.</h1>
+  <p>Tell us in your own words. We read your documents, check your rights and compare clinics, so you know what you'd pay and when you could be treated.</p>
+</div>
+
+<section id="sec-say"><div class="card">
+  <div id="say-intro"><h2>What's going on?</h2>
+  <p class="sub">Speak or type. For example: what operation you need, how long you've waited, and any money worries.</p></div>
+  <div id="say-input">
+    <textarea id="said" placeholder="My doctor recommended this operation. I'm waiting, and I can't afford a large upfront payment."></textarea>
+    <div class="row">
+      <button class="btn mic" id="mic" title="Speak">🎙</button>
+      <button class="btn big" id="start">Continue</button>
+      <span class="muted small" id="micnote"></span>
+    </div>
+    <div class="picker" id="picker">
+      <div class="picker-h">Or walk through a ready-made example — a different operation in each</div>
+      <div class="cases" id="cases"></div>
+    </div>
+  </div>
+  <div id="heard" class="hide"></div>
+</div></section>
+
+<section id="sec-docs" class="hide"><div class="card">
+  <h2>Your documents</h2>
+  <p class="sub">Add your doctor's referral, your waiting-list letter and any clinic offers you've received.</p>
+  <div class="drop" id="drop"><b>Drop files here or click to choose</b>PDF or text · up to 8 MB each</div>
+  <input type="file" id="file" accept=".pdf,.txt" multiple class="hide">
+  <div id="samplerow" class="row" style="margin-top:12px"></div>
+  <div class="notice">Your documents are read by an AI model (Gemini). Please don't upload real medical records in this demo.</div>
+  <div id="docwork"></div>
+  <div class="docs" id="docs"></div>
+  <div class="row hide" id="go-row"><button class="btn big" id="go">Find my options</button><span class="muted small">Takes about 20 seconds.</span></div>
+</div></section>
+
+<section id="sec-work" class="hide"><div class="card prog" id="prog"></div></section>
+
+<section id="sec-opts" class="hide">
+  <div id="treatment"></div>
+  <div id="answer"></div>
+  <div class="card" id="card-clinics" style="margin-top:18px"><h2>The clinics, side by side</h2>
+    <p class="sub">Two ways to pay for treatment abroad. We show both for each clinic.</p>
+    <div class="clinics" id="clinics"></div>
+    <details style="margin-top:14px"><summary>How these numbers work</summary>
+      <div class="src"><b>S2</b> (Regulation 883/2004): your home health insurer pre-approves treatment abroad and settles the bill with the clinic's country. You pay little or nothing at the clinic, but you must be approved <i>before</i> you go.<br><br>
+      <b>Pay and claim back</b> (Directive 2011/24/EU): you pay the clinic yourself, then your insurer repays up to what the same treatment costs at home. You need the money first, and any difference is yours.<br><br>
+      <span id="ratenote"></span></div></details>
+  </div>
+  <div class="card" style="margin-top:18px"><h2>What you still need</h2>
+    <p class="sub" id="todo-sub"></p><div class="todo" id="todo"></div></div>
+  <div class="card" style="margin-top:18px"><h2>Why you may have the right to go abroad</h2><div id="rights"></div></div>
+</section>
+
+<section id="sec-demo" class="hide"><div class="mail">
+  <div class="bar">📨 <span>Inbox · a reply to the question the agent prepared</span></div>
+  <div class="bd">
+    <h2 style="margin:0 0 4px;font-size:22px;letter-spacing:-.02em" id="reply-h">What if the earliest clinic says no?</h2>
+    <p class="sub" id="reply-sub">Real cases rarely go to plan. Open the reply to see the agent redo the comparison.</p>
+    <button class="btn" id="reply">Open the reply</button>
+    <div id="revision"></div>
+  </div>
+</div></section>
+
+<section id="sec-paper" class="hide"><div class="card">
+  <h2>Your paperwork</h2>
+  <p class="sub">Drafts to check, edit and send. Nothing is sent for you.</p>
+  <div class="row" style="margin-top:0"><button class="btn big" id="paper">Prepare my paperwork</button>
+    <label class="muted small">Write the clinic's message in <select id="rlang" style="font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--line)"><option>English</option><option>Polish</option><option>Dutch</option><option>Swedish</option></select></label></div>
+  <div id="paperwork"></div>
+</div></section>
+
+<section id="sec-log" class="hide"><div class="card">
+  <details><summary style="font-size:15px">What the agent did, step by step</summary><div id="trace" class="small" style="margin-top:10px"></div></details>
+</div></section>
+
+<div class="foot"><a href="/explore">Browse procedures and tariffs</a> · <button class="link" onclick="location.reload()">Start over</button></div>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// PDF text layers wrap mid-sentence, so quotes are rewrapped for display only.
+const quo=t=>esc(String(t==null?'':t).replace(/\s+/g,' ').trim());
+const eur=n=>'€'+Math.round(n).toLocaleString('en-GB');
+const date=s=>s?new Date(s+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'a date not stated';
+// The agent writes dates as ISO; show them the way a person reads them.
+const human=t=>String(t==null?'':t).replace(/\b\d{4}-\d{2}-\d{2}\b/g,m=>date(m));
+const EXAMPLE="My doctor recommended this operation. I'm waiting, and I can't afford a large upfront payment.";
+let CASE=null, STATE=null, BUSY=false, SCENARIOS=[], PICKED=null;
+
+async function post(path,body){
+  const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const j=await r.json();
+  if(j.error&&!j.documents&&!j.paperwork){throw new Error(j.error)}
+  return j;
+}
+function fail(el,e){
+  const m=String(e.message||e);
+  const key=/GEMINI|key/i.test(m)?'The AI model needs an API key on this server.':m;
+  el.innerHTML=`<div class="callout red">Something went wrong: ${esc(key)}</div>`;
+}
+function stage(n){
+  document.querySelectorAll('#steps span').forEach(s=>{const k=+s.dataset.s;s.className=k===n?'on':k<n?'done':''});
+}
+function reveal(id){const e=$(id);if(e.classList.contains('hide')){e.classList.remove('hide');setTimeout(()=>e.scrollIntoView({behavior:'smooth',block:'start'}),60)}}
+
+/* ---------- 1. say ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null;
+if(!SR){$('#mic').classList.add('hide')}
+$('#mic').onclick=()=>{
+  if(rec){rec.stop();return}
+  rec=new SR(); rec.lang='en-GB'; rec.interimResults=true; rec.continuous=true;
+  const base=$('#said').value?$('#said').value+' ':'';
+  rec.onresult=e=>{let t='';for(const r of e.results)t+=r[0].transcript;$('#said').value=base+t};
+  rec.onend=()=>{rec=null;$('#mic').classList.remove('on');$('#micnote').textContent=''};
+  rec.onerror=e=>{$('#micnote').textContent=e.error==='not-allowed'?'Microphone blocked — please type instead.':'Voice problem: '+e.error};
+  rec.start();$('#mic').classList.add('on');$('#micnote').textContent='Listening… click the mic to stop.';
+};
+/* The example cases: one complete story per operation (statement + documents + the
+   clinic reply that creates the complication). Picking one only fills the box; the
+   agent still reads the words and the documents from scratch. */
+async function loadScenarios(){
+  try{SCENARIOS=await (await fetch('/api/scenarios')).json()}catch(e){SCENARIOS=[]}
+  if(!SCENARIOS.length){$('#picker').classList.add('hide');return}
+  $('#cases').innerHTML=SCENARIOS.map(s=>`<button class="case-b" data-id="${esc(s.id)}">
+    <span class="t">${esc(s.title)}</span><span class="d">${esc(s.blurb)}</span></button>`).join('');
+  document.querySelectorAll('.case-b').forEach(b=>b.onclick=()=>pick(b.dataset.id));
+  renderSampleRow();
+}
+function pick(id){
+  PICKED=SCENARIOS.find(s=>s.id===id)||null;
+  document.querySelectorAll('.case-b').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  if(PICKED){$('#said').value=PICKED.statement;$('#said').focus()}
+  renderSampleRow();
+}
+function renderSampleRow(){
+  const row=$('#samplerow'); if(!row)return;
+  if(!SCENARIOS.length){row.innerHTML='';return}
+  if(PICKED){
+    row.innerHTML=`<button class="btn sec small" id="samples">Use the ${esc(PICKED.title.toLowerCase())} example documents</button>
+      <span class="muted small">Referral, waiting-list letter and two clinic offers. Fictional patient and clinics, so no real data is used.</span>`;
+  }else{
+    row.innerHTML=`<span class="muted small" style="width:100%">No documents handy? Load a ready-made set:</span>`+
+      SCENARIOS.map(s=>`<button class="btn sec small" data-sc="${esc(s.id)}">${esc(s.title)}</button>`).join('')+
+      `<span class="muted small" style="width:100%">Fictional patient and clinics, so no real data is used.</span>`;
+    row.querySelectorAll('[data-sc]').forEach(b=>b.onclick=()=>{pick(b.dataset.sc);loadSamples()});
+  }
+  const btn=$('#samples'); if(btn)btn.onclick=loadSamples;
+}
+loadScenarios();
+
+$('#start').onclick=async()=>{
+  const said=$('#said').value.trim()||EXAMPLE; $('#said').value=said;
+  if(PICKED&&said!==PICKED.statement){
+    PICKED=null;
+    document.querySelectorAll('.case-b').forEach(b=>b.classList.remove('on'));
+  }
+  if(rec)rec.stop();
+  $('#start').disabled=true;$('#start').textContent='Reading…';
+  try{
+    const req={statement:said};
+    // Example documents carry fixed dates, so the case is dated to match them.
+    if(PICKED){req.today=PICKED.today;req.home=PICKED.home}
+    STATE=await post('/api/case/start',req);CASE=STATE.case_id;
+    showHeard();renderSampleRow();stage(2);reveal('#sec-docs');
+  }catch(e){fail($('#heard'),e);$('#heard').classList.remove('hide')}
+  $('#start').disabled=false;$('#start').textContent='Continue';
+};const HEARD={doctor_recommended:()=>'Your doctor recommended the treatment',waiting:()=>"You're on a waiting list",
+  cannot_advance_money:()=>"You can't pay a large amount upfront",procedure:f=>'Treatment: '+f.value};
+function showHeard(){
+  const f=STATE.intake.fields;
+  $('#say-input').classList.add('hide');
+  $('#say-intro').classList.add('hide');
+  $('#heard').classList.remove('hide');
+  $('#heard').innerHTML=`<h2>Here's what I understood</h2><div style="margin-top:8px">`+
+    Object.keys(f).map(k=>`<div class="ok-line"><span class="t">✓</span><div>${esc((HEARD[k]||(()=>k))(f[k]))}
+      <details><summary>Your words</summary><div class="src">“${quo(f[k].quote)}”</div></details></div></div>`).join('')+
+    `</div>`+(Object.keys(f).length?'':'<div class="callout amber">I couldn\'t pick out any details — that\'s fine, your documents will fill them in.</div>');
+}
+
+/* ---------- 2. documents ---------- */
+const KIND={referral:"Doctor's referral",waiting_letter:'Waiting-list letter',clinic_offer:'Clinic offer',clinic_reply:'Clinic reply',other:'Other document'};
+const FLABEL={procedure:'Treatment',date:'Date',issuer:'From',registered_date:'On the list since',expected_date:'Expected treatment',
+  clinic:'Clinic',country:'Country',price:'Price',currency:'Currency',earliest_admission:'Earliest date',valid_until:'Offer valid until',accepts_s2:'Accepts S2'};
+function fval(k,v){
+  if(/date|admission|valid_until/.test(k))return date(v);
+  if(k==='accepts_s2')return v==='yes'?'Yes':v==='no'?'No':'Not stated';
+  return v;
+}
+function renderDocs(){
+  $('#docs').innerHTML=STATE.documents.map(d=>`<div class="doc"><div class="h">
+    <span class="kind">${esc(KIND[d.kind]||'Document')}</span>${d.synthetic?'<span class="pill sample">SAMPLE</span>':''}
+    <span class="file">${esc(d.filename)}</span></div>
+    ${d.error?`<div class="callout red">${esc(d.error)}</div>`:`<ul>${Object.keys(d.fields).filter(k=>!['issuer','country','currency'].includes(k)).map(k=>
+      `<li><span class="muted">${esc(FLABEL[k]||k)}:</span> ${esc(fval(k,d.fields[k].value))}${k==='price'?' '+esc((d.fields.currency||{}).value||''):''}</li>`).join('')}</ul>
+    <details><summary>Show exactly what was read</summary><div class="src">${Object.keys(d.fields).map(k=>
+      `${esc(FLABEL[k]||k)}: “${quo(d.fields[k].quote)}”`).join('<br>')}${(d.rejected||[]).length?'<br><i>Ignored (couldn\'t be confirmed in the document): '+d.rejected.map(r=>esc(r.field)).join(', ')+'</i>':''}</div></details>`}
+  </div>`).join('');
+  const ready=STATE.documents.some(d=>d.kind==='referral'&&!d.error)||STATE.documents.some(d=>d.kind==='clinic_offer');
+  $('#go-row').classList.toggle('hide',!STATE.documents.length);
+  $('#go').disabled=BUSY;
+}
+async function addFile(name,b64,sample){
+  STATE=sample?await post('/api/case/sample',{case:CASE,name}):await post('/api/case/upload',{case:CASE,filename:name,content_b64:b64});
+  renderDocs();
+}
+const SAMPLE_STEP={'1_referral':"the doctor's referral",'2_waiting_list':'the waiting-list letter',
+  '3_clinic_offer_A':"the first clinic's offer",'4_clinic_offer_B':"the second clinic's offer"};
+function sampleLabel(n){const k=Object.keys(SAMPLE_STEP).find(k=>n.includes(k));return k?SAMPLE_STEP[k]:n}
+async function loadSamples(){
+  if(!PICKED||BUSY)return;
+  const files=PICKED.documents;
+  BUSY=true;document.querySelectorAll('#samplerow button').forEach(b=>b.disabled=true);
+  try{for(let i=0;i<files.length;i++){
+    $('#docwork').innerHTML=`<div class="working"><div class="spin"></div>Reading ${esc(sampleLabel(files[i]))} (${i+1} of ${files.length})…</div>`;
+    await addFile(files[i],null,true);}
+    $('#docwork').innerHTML='';
+  }catch(e){fail($('#docwork'),e)}
+  BUSY=false;document.querySelectorAll('#samplerow button').forEach(b=>b.disabled=false);
+  renderDocs();
+}
+const drop=$('#drop');
+drop.onclick=()=>$('#file').click();
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('hot')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hot')}));
+drop.addEventListener('drop',e=>handleFiles(e.dataTransfer.files));
+$('#file').onchange=e=>handleFiles(e.target.files);
+async function handleFiles(files){
+  BUSY=true;
+  try{for(const f of files){
+    if(f.size>8*1024*1024){$('#docwork').innerHTML=`<div class="callout red">${esc(f.name)} is over 8 MB.</div>`;continue}
+    $('#docwork').innerHTML=`<div class="working"><div class="spin"></div>Reading ${esc(f.name)}…</div>`;
+    const b64=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.readAsDataURL(f)});
+    await addFile(f.name,b64,false);
+  } $('#docwork').innerHTML='';}catch(e){fail($('#docwork'),e)}
+  BUSY=false;renderDocs();
+}
+
+/* ---------- 3. investigate ---------- */
+const WORK=[['identify','Reading your referral and finding the treatment'],['rules','Checking your rights and waiting time'],
+  ['compare','Comparing the clinics under both routes'],['evidence','Working out what paperwork you still need']];
+$('#go').onclick=async()=>{
+  BUSY=true;$('#go').disabled=true;
+  reveal('#sec-work');stage(3);
+  const draw=n=>{$('#prog').innerHTML=`<h2>${n>=WORK.length?'Done':'Working on it…'}</h2><div style="margin-top:8px">`+WORK.map((w,i)=>
+    `<div class="item ${i<n?'done':''}"><span class="ic">${i<n?'✓':i===n?'<div class="spin" style="margin:auto"></div>':'·'}</span>${w[1]}</div>`).join('')+'</div>'};
+  try{
+    for(let i=0;i<WORK.length;i++){draw(i);STATE=await post('/api/case/step',{case:CASE,step:WORK[i][0]});}
+    draw(WORK.length);
+    renderOptions();
+    setTimeout(()=>{$('#sec-work').classList.add('hide');reveal('#sec-opts');},500);
+  }catch(e){fail($('#prog'),e)}
+  BUSY=false;$('#go').disabled=false;$('#go').textContent='Run it again';
+};
+
+function routeBox(r,pick,care){
+  const off=r.available===false;
+  const s2=/S2/.test(r.route);
+  const name=s2?'S2 — your insurer pays the clinic':'Pay yourself, claim back';
+  const badge=off?'<span class="pill red">Not accepted</span>':s2&&r.available===null?'<span class="pill amber">Not confirmed yet</span>'
+    :s2&&r.available?'<span class="pill green">Accepted</span>':'';
+  if(off)return `<div class="route no"><h4>${name} ${badge}</h4><div class="what">${esc(r.availability_basis)}.</div></div>`;
+  const extra=s2?['The €250 is a flat travel estimate. Any patient charges the clinic may add are not included — ask the clinic.']:[];
+  return `<div class="route${pick?' pick':''}"><h4>${name} ${badge}</h4>
+    <div class="what">${s2?'Needs approval from your insurer before you travel.':'You pay the clinic, then claim part of it back.'}</div>
+    <div class="ln"><span>You pay upfront</span><b>${eur(r.upfront_eur)}</b></div>
+    <div class="ln"><span>Expected reimbursement</span><b>${r.reimbursement_eur==null?'settled insurer-to-insurer':eur(r.reimbursement_eur)}</b></div>
+    <div class="ln end"><span>You end up paying</span><b>${eur(r.remaining_eur)}</b></div>
+    <div class="when"><b>Timing</b><ul>${r.timing.map(x=>`<li>${esc(human(x))}</li>`).join('')}</ul></div>
+    ${extra.length?`<details><summary>What else to know</summary><ul>${extra.map(x=>`<li>${esc(x)}</li>`).join('')}${
+      (r.notes||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`
+      :`<details><summary>What else to know</summary><ul>${(r.notes||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`}</div>`;
+}
+function renderOptions(){
+  const c=STATE.comparison||{rows:[],recommendation:{},unavailable:'The comparison could not be produced.'};
+  const rows=(c.rows||[]).filter(r=>!r.error), unusable=(c.rows||[]).filter(r=>r.error),
+        rec=c.recommendation||{}, ru=STATE.rules||{}, p=STATE.procedure||{};
+  stage(3);
+  const src=p.source_file?(STATE.documents||[]).find(d=>d.filename===p.source_file):null;
+  const quote=src&&src.fields.procedure?src.fields.procedure.quote:null;
+  if(c.unavailable){
+    const tried=(p.attempts||[]).map(a=>`<li>“${quo(a.text)}” — from ${esc(a.source)}</li>`).join('');
+    $('#treatment').innerHTML=`<div class="card"><h2>The treatment you're waiting for</h2>
+      <div class="callout amber">${esc(c.unavailable)}</div>
+      ${tried?`<p class="muted small" style="margin-top:12px">The agent tried to place each of these descriptions in the Swedish catalogue:</p><ul class="muted small">${tried}</ul>`:''}
+      <p class="muted small">Rather than guess a price-list group, it stops here. Upload a referral that names the operation in full, or add a clinic offer that describes it, and run it again.</p></div>`;
+  }else{
+    $('#treatment').innerHTML=`<div class="card"><h2>The treatment you're waiting for</h2>
+    <div class="treat"><div class="ic">🩺</div><div>
+      <span class="tt">${esc(p.from_text||p.label_en||'Not identified')}</span>
+      <span class="muted small">Matched to ${esc(c.tariff_country)}'s price-list group <b>${esc(p.drg||'—')}</b>${p.label_en?', '+esc(p.label_en):''}${p.confidence!=null?` · ${Math.round(p.confidence*100)}% confidence`:''} · ${c.care_type==='outpatient'?'day surgery':'inpatient surgery'}</span>
+      <span class="muted small">Read from ${esc(p.source||'your papers')}.</span>
+      ${quote?`<details><summary>Where this came from</summary><div class="src">${esc(src.filename)}: “${quo(quote)}”</div></details>`:''}
+    </div></div>
+    <div class="muted small" style="margin-top:12px">${esc(c.tariff_country)} pays <b>${eur(c.home_tariff_eur)}</b> for this operation at home. That figure caps what you can be reimbursed if you pay a clinic yourself.</div>
+  </div>`;
+  }
+  const best=rows.find(r=>r.clinic===rec.clinic);
+  $('#card-clinics').classList.toggle('hide',!c.rows||!c.rows.length);
+  if(!best){$('#answer').innerHTML=c.unavailable?'':`<div class="card"><h2>No workable option yet</h2><p class="sub">${esc(human(rec.why||''))}</p></div>`}
+  else{
+    const route=best[rec.route_key], s2=rec.route_key==='s2';
+    const earlier=best.timing.days_earlier_than_home;
+    $('#answer').innerHTML=`<div class="answer"><div class="eyebrow">Your best option</div>
+      <h2>${esc(best.clinic)}, ${esc(best.country)}${s2?' — through S2':''}</h2>
+      <p>${s2?`Your insurer would approve the treatment in advance and settle with the clinic, so you only cover travel.`
+        :`You'd pay the clinic and claim part of it back from your insurer.`}${c.cannot_advance&&s2?' This is the route that fits "I can\'t pay a large amount upfront".':''}</p>
+      <div class="stats">
+        <div class="stat"><div class="l">You pay upfront</div><div class="v">${eur(route.upfront_eur)}</div><div class="n">${s2?'travel estimate':'including travel'}</div></div>
+        <div class="stat"><div class="l">You end up paying</div><div class="v">${eur(route.remaining_eur)}</div><div class="n">${s2?'before any clinic charges':'after your claim'}</div></div>
+        <div class="stat"><div class="l">Earliest treatment</div><div class="v" style="font-size:20px">${date(best.timing.admission)}</div><div class="n">${earlier!=null?earlier+' days before your current date':'—'}</div></div>
+      </div>
+      ${rec.pending_s2_confirmation?`<div class="callout">This clinic hasn't said whether it accepts S2. We've prepared a question for it below.</div>`:''}
+      ${rec.fallback?`<div class="callout" style="margin-top:10px">Plan B: ${esc(rec.fallback.clinic)}, from ${date(rec.fallback.admission)}.</div>`:''}</div>`;
+  }
+  $('#clinics').innerHTML=rows.map(r=>`<div class="clinic${r.clinic===rec.clinic?' best':''}">
+    <h3>${esc(r.clinic)} ${r.synthetic?'<span class="pill sample">SAMPLE</span>':''} ${r.clinic===rec.clinic?'<span class="pill">Best fit</span>':''}</h3>
+    <div class="meta">${esc(r.country)} · quoted ${esc(r.price.toLocaleString('en-GB'))} ${esc(r.currency)}${r.currency==='EUR'?'':` (about ${eur(r.price_eur)})`} · earliest ${date(r.timing.admission)}${r.timing.days_earlier_than_home!=null?` · ${r.timing.days_earlier_than_home} days sooner than at home`:''}</div>
+    <div class="routes">${routeBox(r.s2,r.clinic===rec.clinic&&rec.route_key==='s2')}${routeBox(r.directive,r.clinic===rec.clinic&&rec.route_key==='directive')}</div></div>`).join('')
+    +unusable.map(r=>`<div class="clinic"><h3>${esc(r.clinic||'An offer')} ${r.synthetic?'<span class="pill sample">SAMPLE</span>':''}</h3>
+    <div class="callout amber" style="margin-top:8px">Not compared: ${esc(r.error)}.</div></div>`).join('');
+  $('#ratenote').textContent=c.home_tariff_eur==null?'':c.rates_note+' '+c.tariff_country
+    +"'s tariff for this treatment: "+eur(c.home_tariff_eur)+(p.label_en?' ('+p.label_en+')':'')+'.';
+
+  const ev=STATE.evidence;
+  if(ev){
+    const missing=ev.items.filter(i=>i.status==='missing'||i.status==='blocked').length;
+    $('#todo-sub').textContent=missing?'A few things are still open.':'Everything we can check is in place.';
+    const ic={present:['✓',''],missing:['!','warn'],blocked:['✕','bad'],you_supply:['i','na'],later:['·','na']};
+    $('#todo').innerHTML=ev.items.map(i=>{const [t,cls]=ic[i.status]||['·','na'];
+      return `<div class="ok-line"><span class="t ${cls}">${t}</span><div>${esc(i.label)}${i.note?`<div class="muted small">${esc(i.note)}</div>`:''}${
+        i.source&&i.source.quote?`<details><summary>Where this came from</summary><div class="src">${esc(i.source.file)}: “${quo(i.source.quote)}”</div></details>`:''}</div></div>`}).join('');
+  }
+  const wl=ru, hc=c.home_country||'Your country';
+  $('#rights').innerHTML=wl.projected_total_wait_days!=null?
+    `<p style="margin:0 0 8px">You joined the list on <b>${date(wl.registered)}</b> and treatment is expected on <b>${date(wl.expected)}</b>: a wait of about <b>${wl.projected_total_wait_days} days</b>.
+     ${esc(hc)}'s guarantee is <b>${wl.guarantee_days} days</b>${wl.guarantee_name?' ('+esc(wl.guarantee_name)+')':''}.</p>
+     ${wl.undue_delay_argument?`<div class="callout green">That is longer than the guarantee. Under EU rules (Regulation 883/2004, Art. 20), your insurer should not refuse approval when treatment can't be given in a medically justifiable time. This supports your application. It isn't a guarantee of approval.</div>`
+       :`<div class="callout amber">This is within the guarantee, so the argument for going abroad is weaker.</div>`}
+     ${wl.context?`<div class="muted small" style="margin-top:10px">For context, the typical (median) wait in ${esc(hc)} for this treatment was ${wl.context.median_days} days in ${esc(wl.context.month)} (<a href="${esc(wl.context.source.url)}" target="_blank" rel="noopener">SKR</a>). Your own wait is what counts.</div>`:''}`
+    :`<div class="callout amber">${esc(wl.basis||'We need your waiting-list letter to check this.')}</div>`;
+
+  $('#trace').innerHTML=(STATE.trace||[]).map(t=>`<div style="padding:5px 0;border-top:1px solid var(--line)"><span class="muted">${esc(t.at)}</span> · ${esc(human(t.text))}</div>`).join('');
+  $('#sec-log').classList.remove('hide');
+  $('#sec-paper').classList.toggle('hide',!best);
+  renderRevision();
+}
+/* ---------- 4. complication ---------- */
+$('#reply').onclick=async()=>{
+  if(!PICKED)return;
+  $('#reply').disabled=true;$('#reply').textContent='Reading the reply…';
+  try{
+    await post('/api/case/sample',{case:CASE,name:PICKED.reply});
+    STATE=await post('/api/case/step',{case:CASE,step:'revise'});
+    renderOptions();
+    $('#sec-demo').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){fail($('#revision'),e);$('#reply').disabled=false}
+  $('#reply').textContent='Open the reply';
+};
+function renderRevision(){
+  const rv=(STATE.revisions||[]).slice(-1)[0];
+  const ready=!!(STATE.comparison&&!STATE.comparison.unavailable&&(STATE.comparison.rows||[]).length);
+  $('#sec-demo').classList.toggle('hide',!(PICKED&&ready));
+  $('#reply').classList.toggle('hide',!!rv);
+  $('#reply-h').textContent=rv?'The earliest clinic said no':'What if the earliest clinic says no?';
+  if(PICKED)$('#reply-sub').textContent=rv
+    ? `${PICKED.reply_clinic} answered. The agent re-read the reply, redid the comparison and worked out what each way forward now needs.`
+    : `The agent asked ${PICKED.reply_clinic} whether it treats S2 patients. Open its reply to see the comparison redone.`;
+  $('#reply').disabled=!!rv;
+  if(!rv){$('#revision').innerHTML='';return}
+  const said=(STATE.documents||[]).filter(d=>d.kind==='clinic_reply'&&!d.error)
+    .map(d=>d.fields.accepts_s2&&d.fields.accepts_s2.quote).filter(Boolean);
+  $('#revision').innerHTML=`<div style="margin-top:18px">
+    ${rv.changes.map((x,i)=>`<div class="callout red"><b>${esc(x.replace(/\s*\("[\s\S]*?"\)/,''))}</b>${
+      said[i]?`<div class="small" style="margin-top:6px;opacity:.85">Their words: “${quo(said[i])}”</div>`:''}</div>`).join('')}
+    <div class="compare"><div class="b"><div class="l">Plan before the reply</div>${esc(human(rv.before.why))}</div>
+      <div class="a"><div class="l">Revised plan</div>${esc(human(rv.after.why))}</div></div>
+    <h3 style="margin:18px 0 8px;font-size:17px">What each way forward now needs</h3>
+    ${rv.needed.map(n=>`<div class="route" style="margin-bottom:10px"><h4>${esc(n.route)}</h4><div class="what" style="margin:0">${esc(human(n.summary))}</div>
+      <ul>${n.requires.map(x=>`<li>${esc(human(x))}</li>`).join('')}</ul></div>`).join('')}</div>`;
+}
+
+/* ---------- 5. paperwork ---------- */
+$('#paper').onclick=async()=>{
+  $('#paper').disabled=true;$('#paperwork').innerHTML='<div class="working"><div class="spin"></div>Writing and checking the letters…</div>';
+  try{
+    STATE=await post('/api/case/paperwork',{case:CASE,language:$('#rlang').value});
+    renderPaper(STATE.paperwork);stage(4);
+  }catch(e){fail($('#paperwork'),e)}
+  $('#paper').disabled=false;$('#paper').textContent='Prepare it again';
+};
+function letterBox(x,key){
+  if(!x||!x.text)return `<div class="callout amber">${esc((x&&x.error)||'Not drafted yet.')}</div>`;
+  const ok=!(x.problems&&x.problems.length);
+  return `<div class="pw-head"><span class="pill ${ok?'green':'red'}">${ok?'Checked: no invented figures, no medical claims':'Needs review'}</span>
+    <span class="muted small">To ${esc(x.addressee)} · written in ${esc(x.language)}</span></div>
+    ${ok?'':`<div class="callout amber">${x.problems.map(esc).join('<br>')}</div>`}
+    <div class="letter" id="L-${key}">${esc(x.text)}</div>
+    <div class="row"><button class="btn sec small" data-copy="${key}">Copy</button><button class="btn sec small" data-dl="${key}">Download</button></div>`;
+}
+function renderPaper(p){
+  const lists=p.checklist.map(c=>{
+    const ic={present:['✓',''],missing:['!','warn'],blocked:['✕','bad'],you_supply:['i','na'],later:['·','na']}[c.status]||['·','na'];
+    return `<div class="ok-line"><span class="t ${ic[1]}">${ic[0]}</span><div>${esc(c.label)}${c.attach?`<div class="muted small">Attach: ${esc(c.attach)}</div>`:''}${c.note?`<div class="muted small">${esc(c.note)}</div>`:''}</div></div>`}).join('');
+  $('#paperwork').innerHTML=`<div class="muted" style="margin-top:14px">For <b>${esc(p.clinic)}</b>${p.sample_note?' (a fictional sample clinic)':''}.</div>
+    <div class="tabs" style="margin-top:12px"><button class="tab on" data-t="app">1 · Application to your insurer</button><button class="tab" data-t="att">2 · What to attach</button><button class="tab" data-t="req">3 · Question to the clinic</button></div>
+    <div data-p="app">${letterBox(p.application,'app')}</div>
+    <div data-p="att" class="hide"><div class="todo">${lists}</div></div>
+    <div data-p="req" class="hide">${letterBox(p.request,'req')}</div>`;
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+    document.querySelectorAll('[data-p]').forEach(x=>x.classList.toggle('hide',x.dataset.p!==t.dataset.t));
+  });
+  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText($('#L-'+b.dataset.copy).textContent);b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',1500)});
+  document.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>{
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('#L-'+b.dataset.dl).textContent],{type:'text/plain'}));
+    a.download=(b.dataset.dl==='app'?'S2-application':'message-to-clinic')+'.txt';a.click()});
+}
+</script>
+</body></html>

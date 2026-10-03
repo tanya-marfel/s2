@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S2 — planned treatment abroad, paid at home</title>
+<style>
+:root{
+  --paper:#fbfaf7; --panel:#fff; --ink:#15181d; --muted:#6c7079;
+  --rule:#e6e2da; --eu:#003399; --eu-soft:#eef1fa; --gold:#f5b800;
+  --red:#b3261e; --green:#116b3a; --green-soft:#eef7f1;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:15px/1.6 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased}
+.serif{font-family:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif}
+.num{font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+header{display:flex;align-items:center;gap:16px;padding:20px 34px;
+  background:var(--panel);border-bottom:1px solid var(--rule)}
+.mark{font-family:ui-serif,Georgia,serif;font-size:27px;font-weight:700;
+  letter-spacing:-.02em;line-height:1}
+.mark .b{color:var(--eu)}
+.tag{color:var(--muted);font-size:14px}
+.stat{margin-left:auto;color:var(--muted);font-size:13px;text-align:right}
+.stat b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+.wrap{display:grid;grid-template-columns:330px 1fr;height:calc(100vh - 69px)}
+.side{border-right:1px solid var(--rule);overflow:auto;padding:22px;background:var(--panel)}
+.main{overflow:auto;padding:38px 46px 80px}
+
+label.f{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:7px;font-weight:600}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--rule);
+  border-radius:8px;font:inherit;background:var(--paper)}
+input[type=text]:focus{outline:none;border-color:var(--eu);background:#fff}
+input[type=range]{width:100%;accent-color:var(--eu)}
+select{width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;
+  font:inherit;background:var(--paper)}
+select:focus{outline:none;border-color:var(--eu)}
+button{font:inherit;font-weight:600;padding:13px 22px;border-radius:9px;border:none;
+  background:var(--eu);color:#fff;cursor:pointer}
+button:hover{background:#002a7a}
+button:disabled{opacity:.55;cursor:default}
+.act{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:4px}
+.act .hint{font-size:13px;color:var(--muted)}
+.letter{white-space:pre-wrap;font:14.5px/1.72 ui-serif,Georgia,serif;margin-top:4px}
+.verdict{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;padding:5px 12px;border-radius:99px;margin-bottom:16px}
+.verdict.ok{background:var(--green-soft);color:var(--green)}
+.verdict.bad{background:#fdecea;color:var(--red)}
+button.ghost{background:transparent;color:var(--eu);border:1px solid var(--rule)}
+button.ghost:hover{background:var(--eu-soft)}
+.clock{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:nowrap}
+.clock .day{font:650 23px/1 ui-serif,Georgia,serif}
+.clock .of{font-size:12px;color:var(--muted);white-space:nowrap;margin-left:auto}
+.fired{margin:14px 0 2px}
+.fired .f{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;padding:5px 12px;border-radius:99px;margin:0 8px 8px 0}
+.f.escalated{background:#fdf3d8;color:#8a6100}
+.f.closed{background:var(--green-soft);color:var(--green)}
+.f.retracted{background:#fde8d8;color:#9a3f00;box-shadow:0 0 0 2px #f0b98a}
+.f.reopened{background:#e8eefc;color:var(--eu)}
+.loop.hit{background:#fff8e6;border-radius:8px}
+.banner{background:#fff8e6;border:1px solid #f0dfae;border-left:4px solid var(--gold);
+  border-radius:10px;padding:14px 18px;margin:0 0 24px;font-size:13.5px;color:#7a5800}
+.wait{display:flex;align-items:baseline;gap:8px;margin:22px 0 4px}
+.wait .v{font-size:25px;font-weight:650}
+.wait .u{color:var(--muted);font-size:13px}
+.breach{font-size:12px;margin-top:5px;font-weight:600}
+.breach.y{color:var(--red)} .breach.n{color:var(--green)}
+
+.list{margin-top:20px;border-top:1px solid var(--rule)}
+.row{padding:12px 10px;border-bottom:1px solid var(--rule);cursor:pointer;
+  border-left:3px solid transparent;transition:background .12s}
+.row:hover{background:var(--eu-soft)}
+.row.on{background:var(--eu-soft);border-left-color:var(--eu)}
+.row .c{font-size:11px;letter-spacing:.05em;color:var(--eu);font-weight:700}
+.row .t{font-size:14px;margin:1px 0 3px}
+.row .s{font-size:12px;color:var(--muted)}
+.row .p{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--eu);font-weight:700}
+h1{font-size:34px;line-height:1.15;margin:8px 0 6px;letter-spacing:-.02em;font-weight:600}
+.srcLabel{color:var(--muted);font-size:14px;font-style:italic}
+
+.strip{display:flex;gap:44px;padding:16px 22px;border-radius:10px;margin:24px 0 30px;
+  background:var(--panel);border:1px solid var(--rule);flex-wrap:wrap}
+.strip.alert{border-left:4px solid var(--red)}
+.strip .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap}
+.strip .v{font-size:19px;font-weight:650;font-variant-numeric:tabular-nums;
+  white-space:nowrap}
+.strip .v.red{color:var(--red)}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.route{background:var(--panel);border:1px solid var(--rule);border-radius:12px;
+  padding:22px;position:relative}
+.route.best{border:1.5px solid var(--green);background:var(--green-soft)}
+.ribbon{position:absolute;top:-10px;left:22px;background:var(--green);color:#fff;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:3px 10px;border-radius:99px}
+.route h3{margin:2px 0 2px;font-size:17px;font-weight:650}
+.route .law{font-size:12px;color:var(--muted);margin-bottom:16px}
+.line{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;
+  font-size:14px}
+.line b{font-variant-numeric:tabular-nums;font-weight:600;font-size:16px}
+.line.total{border-top:1px solid var(--rule);margin-top:8px;padding-top:12px}
+.line.emph b{font-size:22px}
+.note{font-size:12.5px;color:var(--muted);margin-top:16px;line-height:1.5}
+
+
+h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  margin:40px 0 14px;font-weight:700}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:22px}
+.card.flag{border-left:4px solid var(--gold)}
+.cite{font-size:13px;color:var(--muted);margin-top:8px}
+.cite .doc{color:var(--ink);font-weight:600;font-size:14px}
+.prov{display:grid;grid-template-columns:1fr auto;gap:18px;padding:12px 0;
+  border-top:1px solid var(--rule)}
+.prov .pn{font-size:14px;font-weight:600}
+.prov .pw{text-align:right;white-space:nowrap}
+.plist{margin-top:10px}
+.ctry{margin-top:22px;padding-top:16px;border-top:2px solid var(--rule)}
+
+pre{margin:12px 0 0;padding:12px 14px;background:var(--paper);border:1px solid var(--rule);
+  border-radius:8px;font:12px/1.5 ui-monospace,Menlo,monospace;overflow-x:auto;
+  white-space:pre-wrap;word-break:break-word}
+a{color:var(--eu)}
+
+.loop{display:grid;grid-template-columns:11px 1fr auto;gap:14px;align-items:start;
+  padding:13px 0;border-bottom:1px solid var(--rule)}
+.loop:last-child{border-bottom:none}
+.dot{width:9px;height:9px;border-radius:50%;margin-top:7px}
+.d-open{background:#c9ccd2} .d-escalated{background:var(--gold)}
+.d-closed{background:var(--green)}
+.loop .ty{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.log{margin-top:18px;border-top:1px solid var(--rule);padding-top:16px}
+.ev{display:flex;gap:12px;font-size:12.5px;padding:4px 0;color:var(--muted)}
+.ev .a{min-width:132px;font-weight:600;color:var(--ink)}
+.ev.ret .a,.ev.ret{color:#8a6100}
+.ev.ret{background:#fff8e6;border-radius:6px;padding:7px 10px;margin:4px 0}
+.empty{color:var(--muted);padding:60px 0;text-align:center}
+</style></head>
+<body>
+<header>
+  <div class="mark">S<span class="b">2</span></div>
+  <div class="tag">Planned treatment abroad, paid at home.</div>
+  <div class="stat" id="stat"></div>
+  <a href="/" style="font-size:13px;color:var(--eu);margin-left:18px">Start a case →</a>
+</header>
+
+<div class="wrap">
+  <aside class="side">
+    <label class="f" for="home">Patient's home country</label>
+    <select id="home"></select>
+    <div class="cite" id="guar" style="margin-top:7px"></div>
+    <label class="f" for="q" style="margin-top:22px">Procedure</label>
+    <input type="text" id="q" placeholder="Search in English or Swedish…">
+    <div class="wait">
+      <span class="v num" id="wv">240</span><span class="u">days waiting at home</span>
+    </div>
+    <input type="range" id="wait" min="0" max="500" step="5" value="240">
+    <div class="breach" id="breach"></div>
+    <div class="list" id="list"></div>
+  </aside>
+  <main class="main" id="main">
+    <div class="empty">Select a procedure to compare routes.</div>
+  </main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const eur=n=>'€'+Math.round(n).toLocaleString('en-GB');
+let GUAR=90, COUNTRIES=[], HOME='SE';
+let cur=null, PROV=null;
+
+function breach(){
+  const w=+$('#wait').value, el=$('#breach');
+  if(w>GUAR){el.className='breach y';
+    el.textContent=`Exceeds the ${GUAR}-day guarantee by ${w-GUAR} days`;}
+  else{el.className='breach n';
+    el.textContent=`Within the ${GUAR}-day statutory guarantee`;}
+}
+
+async function load(q){
+  const d=await(await fetch('/api/procedures?q='+encodeURIComponent(q||''))).json();
+  $('#list').innerHTML=d.map(p=>`<div class="row${cur===p.drg?' on':''}" data-d="${p.drg}">
+      <div class="c">${p.drg}</div>
+      <div class="t">${p.label_en||p.label}</div>
+      ${p.label_en?`<div class="s">${p.label}</div>`:''}
+      <div class="p">${p.sek.toLocaleString('sv-SE')} SEK · ${eur(p.eur)}</div>
+    </div>`).join('');
+  document.querySelectorAll('.row').forEach(e=>e.onclick=()=>{PROV=null;pick(e.dataset.d);});
+}
+
+async function pick(drg){
+  cur=drg; load($('#q').value);
+  const w=$('#wait').value, y=window.scrollY;
+  const pq=PROV?'&provider='+encodeURIComponent(PROV):'';
+  history.replaceState(null,'','/?drg='+drg+'&wait='+w+'&home='+HOME+pq);
+  const d=await(await fetch(`/api/route?drg=${drg}&wait=${w}&home=${HOME}${pq}`)).json();
+  if(d.error){$('#main').innerHTML='<div class="empty">'+d.error+'</div>';return}
+  const [dir,s2]=d.routes, rec=d.recommendation, ent=d.entitlement, pv=d.provenance;
+  const card=r=>`<div class="route${r.route===rec.route?' best':''}">
+      ${r.route===rec.route?'<span class="ribbon">Recommended</span>':''}
+      <h3>${r.route}</h3><div class="law">${r.legal_basis}</div>
+      <div class="line"><span>Paid up front</span><b>${eur(r.upfront_cost_eur)}</b></div>
+      <div class="line"><span>Reimbursed</span><b>${eur(r.reimbursed_eur)}</b></div>
+      <div class="line total emph"><span>Out of pocket</span>
+        <b>${eur(r.out_of_pocket_eur)}</b></div>
+      <div class="note">${r.prior_authorisation}</div></div>`;
+
+  const hc=d.home_country;
+  $('#main').innerHTML=`
+    ${d.tariffs_are_home?'':`<div class="banner">
+      Tariffs for <b>${hc.name}</b> have not been ingested yet, so the figures
+      below come from the Swedish catalogue and are illustrative. The
+      entitlement test uses ${hc.name}'s own ${hc.guarantee_name}.
+      Run <code>cbh/ingest/agent.py</code> on a ${hc.name} tariff document to
+      replace them.</div>`}
+    <div class="eyebrow">NordDRG ${d.drg}</div>
+    <h1 class="serif">${d.label_en||d.label}</h1>
+    ${d.label_en?`<div class="srcLabel">${d.label} — source label</div>`:''}
+    <div class="strip${+w>GUAR?' alert':''}">
+      <div><div class="k">Wait at home</div>
+        <div class="v num${+w>GUAR?' red':''}">${w} days</div></div>
+      <div><div class="k">${hc.binding?'Statutory guarantee':'Agreed norm'}</div>
+        <div class="v num">${hc.guarantee_days} days</div></div>
+      <div><div class="k">${d.destination.abroad_wait_is_assumption
+          ?'Available abroad (assumed)':'Wait at chosen provider'}</div>
+        <div class="v num">${d.destination.abroad_wait_days} days</div></div>
+      <div><div class="k">Time saved</div>
+        <div class="v num">${Math.round(rec.days_saved)} days</div></div>
+    </div>
+    <div class="cite" id="homewait" style="margin:0 0 18px"></div>
+    <div class="pair">${card(dir)}${card(s2)}</div>
+    <div class="cite" style="margin-top:14px">Why this route: ${rec.decided_on}.</div>
+    <h2>Entitlement</h2>
+    <div class="card${ent.undue_delay_argument?'':' flag'}">
+      <b>Undue delay — ${ent.undue_delay_argument?'argument available':'not available'}</b>
+      <div class="cite" style="margin-top:6px">${ent.basis}</div>
+      ${ent.caveat?`<div class="cite" style="margin-top:8px;color:#8a6100">${ent.caveat}</div>`:''}
+    </div>
+    <h2>The same procedure in other countries</h2>
+    <div class="card" id="xwalk"><div class="cite" style="margin-top:0">Matching across coding systems…</div></div>
+    <h2>Where to be treated</h2>
+    <div class="card" id="where"><div class="cite" style="margin-top:0">
+      Searching national waiting-list registers…</div></div>
+    <h2>Where this figure comes from</h2>
+    <div class="card">
+      <div class="cite"><span class="doc">${pv.home.title}</span><br>
+        ${pv.home.publisher} · page ${pv.home.page} · sha256 ${pv.home.sha256}</div>
+      <pre>${pv.home.raw_line}</pre>
+      <div class="cite" style="margin-top:10px">
+        <a href="${pv.home.url}" target="_blank" rel="noopener">Open the source document ↗</a></div>
+      ${pv.abroad_modelled?`<div class="cite" style="margin-top:12px;color:#8a6100">
+        Treatment-country tariff is modelled from the Swedish tariff, not ingested — no tariff catalogue has been loaded for the treatment country. The wait comes from the register once you choose a provider.
+      </div>`:''}
+    </div>
+    <h2>Act on this</h2>
+    <div class="card">
+      <div class="act">
+        <button id="go">Draft my S2 application</button>
+        ${d.destination.provider?'<button class="ghost" id="go2">Draft enquiry to the provider</button>':''}
+        <span class="hint">Writes the prior-authorisation letter to
+          ${esc(hc.authority||hc.name)} in ${esc(hc.language)}${d.destination.provider
+            ?`, naming <b>${esc(d.destination.provider.provider)}</b> (${esc(d.destination.country_name)})`
+            :' (choose a provider above to name one)'},
+          then checks it before showing it to you.</span>
+      </div>
+      <div id="out"></div>
+    </div>
+    <h2>The agent after you file</h2>
+    <div class="card">
+      ${d.destination.provider?`
+      <div class="clock">
+        <span class="day" id="day">Live — watching ${esc(d.destination.provider.provider)}</span>
+      </div>
+      <div class="act" style="margin-top:12px">
+        <button id="chk">Check the register now</button>
+        <span class="hint">Re-reads the provider's reported wait and lets the agent react.</span>
+      </div>
+      <div class="act" style="margin-top:10px">
+        <button class="ghost" id="sim">Simulate</button>
+        <span class="hint">a reported wait of
+          <input type="number" id="simw" value="60" min="0" max="999" style="width:64px"> days
+          (labelled as simulated)</span>
+      </div>
+      <div class="act" style="margin-top:10px">
+        <button class="ghost" id="wk">Full wake-up</button>
+        <span class="hint">re-checks every source the plan relied on, re-ingests what changed;
+          optionally pretend the tariff moved
+          <input type="number" id="simt" value="" placeholder="0" min="0" max="100" style="width:56px"> %</span>
+      </div>
+      <div class="cite" id="obs"></div>
+      <div id="props"></div>`:`
+      <div class="clock">
+        <span class="day" id="day">Day 0 — case opened</span>
+        <span class="of" id="of"></span>
+      </div>
+      <div class="act" style="margin-top:12px">
+        <button id="step">Advance time</button>
+        <button class="ghost" id="rew">Reset</button>
+        <span class="hint">Demo replay of months of follow-up. Choose a provider above
+          to run the agent live against the real register instead.</span>
+      </div>`}
+      <div class="fired" id="fired"></div>
+      <div id="tl">…</div>
+    </div>`;
+  showWhere(d);
+  showCrosswalk(d.drg);
+  showHomeWait(d);
+  if(PROV) window.scrollTo(0,y);
+  $('#go').onclick=()=>makeDraft(d.drg,'application');
+  if($('#go2')) $('#go2').onclick=()=>makeDraft(d.drg,'referral');
+  if(d.destination.provider){
+    $('#chk').onclick=()=>liveWatch(d,'check');
+    $('#sim').onclick=()=>liveWatch(d,'check',$('#simw').value);
+    $('#wk').onclick=()=>liveWatch(d,'wake',null,$('#simt').value);
+    liveWatch(d,'open');
+  }else{
+    $('#step').onclick=()=>advance(+1);
+    $('#rew').onclick=()=>{STEP=0;advance(0);};
+    STEP=0; advance(0);
+  }
+}
+
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function ncpLinks(d){
+  return `<div class="cite" style="margin-top:14px">
+    Official guidance — National Contact Points in every country:
+    <a href="${d.destination.eu_directory}" target="_blank" rel="noopener">EU directory ↗</a>
+    · your own:
+    <a href="${d.destination.home_ncp.url}" target="_blank" rel="noopener">${esc(d.destination.home_ncp.name)} ↗</a></div>`;
+}
+
+function providerRow(p,country){
+  const addr=[p.address,p.postcode,p.locality,country].filter(Boolean).map(esc).join(', ');
+  const map=p.lat&&p.lon
+    ?`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=15/${p.lat}/${p.lon}`
+    :'https://www.openstreetmap.org/search?query='+encodeURIComponent(
+        [p.address,p.postcode,p.locality].filter(Boolean).join(' '));
+  const wait=p.avg_wait_days!=null?`${p.avg_wait_days} days`:'no wait reported';
+  return `<div class="prov">
+    <div><div class="pn">${esc(p.provider)}</div>
+      ${p.place&&p.place!==p.provider?`<div class="cite" style="margin-top:2px">${esc(p.place)}</div>`:''}
+      <div class="cite" style="margin-top:2px">${addr}${p.region?' · '+esc(p.region):''}
+        · <a href="${map}" target="_blank" rel="noopener">map ↗</a>${p.phone?' · '+esc(p.phone):''}</div></div>
+    <div class="pw"><b class="num">${wait}</b>
+      <div class="cite" style="margin-top:2px">${p.awaiting==null?'':p.awaiting+' waiting'}</div>
+      ${p.key===PROV
+        ?'<button class="ghost choose" data-k="">Selected ✓ — clear</button>'
+        :`<button class="ghost choose" data-k="${esc(p.key)}">Use this provider</button>`}</div>
+  </div>`;
+}
+
+// A chosen provider is pinned to the top of its country even if it ranks lower.
+function rows(c,full){
+  const all=c.providers, sel=all.find(p=>p.key===PROV);
+  const rest=all.filter(p=>p!==sel);
+  return (sel?[sel]:[]).concat(full?rest:rest.slice(0,sel?4:5))
+    .map(p=>providerRow(p,c.name)).join('');
+}
+
+function countrySection(c){
+  const SHOW=5, all=c.providers;
+  if(c.error) return `<div class="ctry"><b>${esc(c.name)}</b>
+    <div class="cite">Register unavailable right now (${esc(c.error)}).</div></div>`;
+  if(!c.matched) return `<div class="ctry"><b>${esc(c.name)}</b>
+    <div class="cite">Not found in the ${esc(c.name)} register
+      (${esc(c.reason||'no match')}).</div></div>`;
+  const fastest=all.find(p=>p.avg_wait_days);
+  return `<div class="ctry" data-c="${c.code}">
+    <b>${esc(c.name)} — ${c.total} provider${c.total===1?'':'s'}</b>
+    <div class="cite" style="margin-top:4px">Matched to <b>${esc(c.match.benefit)}</b>${
+      c.match.confidence!=null?` (${Math.round(c.match.confidence*100)}% confidence)`:''}${
+      fastest?`; shortest reported wait ${fastest.avg_wait_days} days`:''}.</div>
+    <div class="plist">${rows(c,false)}</div>
+    ${all.length>SHOW?`<div class="act" style="margin-top:10px">
+      <button class="ghost more">Show all ${all.length}</button></div>`:''}
+    <div class="cite" style="margin-top:10px">
+      <a href="${c.source.url}" target="_blank" rel="noopener">${esc(c.source.name)} ↗</a>
+      · provider-reported, updated ${esc((all.find(p=>p.updated)||{}).updated||'')}</div>
+  </div>`;
+}
+
+let REGION='';
+async function showHomeWait(d){
+  const el=$('#homewait');
+  let r;
+  try{ r=await(await fetch(`/api/homewait?drg=${d.drg}&home=${HOME}&region=${REGION}`)).json(); }
+  catch(e){ r={reason:String(e)}; }
+  if(cur!==d.drg||!$('#homewait')) return;
+  if(!r.matched){ el.innerHTML=`Reported waiting times: ${esc(r.reason||'not available')}.`; return; }
+  const w=r.wait, sel=`<select id="hwreg" style="width:auto;padding:2px 6px;font-size:12px">
+    <option value="">All regions</option>${(r.regions||[]).map(x=>
+      `<option value="${x.regionId}"${String(x.regionId)===String(REGION)?' selected':''}>${esc(x.regionName)}</option>`).join('')}</select>`;
+  el.innerHTML=w
+    ?`Reported in Sweden for <b>${esc(r.service)}</b>: median <b>${w.median_days} days</b> in ${esc(w.month)}
+       (${w.operations} operations, ${esc(w.region)}). ${sel}
+       <button class="ghost" id="usehw" style="padding:3px 10px;font-size:12px">Use ${w.median_days} as my wait</button>
+       <a href="${r.source.url}" target="_blank" rel="noopener">source ↗</a>`
+    :`<b>${esc(r.service)}</b>: no waiting time reported for this region — ${esc(r.missing)}. ${sel}`;
+  const rg=$('#hwreg'); if(rg) rg.onchange=e=>{REGION=e.target.value;showHomeWait(d);};
+  const b=$('#usehw'); if(b) b.onclick=()=>{$('#wait').value=w.median_days;$('#wv').textContent=w.median_days;breach();pick(d.drg);};
+}
+
+async function showCrosswalk(drg){
+  const el=$('#xwalk');
+  let r;
+  try{ r=await(await fetch('/api/match?drg='+drg)).json(); }catch(e){ r={error:String(e)}; }
+  if(cur!==drg||!$('#xwalk')) return;
+  if(r.error){ el.innerHTML=`<div class="cite" style="margin-top:0">${esc(r.error)}</div>`; return; }
+  const conf=m=>m&&m.confidence!=null?` <span class="cite">(${Math.round(m.confidence*100)}% match)</span>`:'';
+  const none=m=>`<span class="cite">no match${m&&m.reason?' — '+esc(m.reason):''}</span>`;
+  const j=r.poland_jgp, pv=j&&j.provenance;
+  const rowx=(k,v)=>`<div class="line"><span>${k}</span><b style="font-size:14px;text-align:right">${v}</b></div>`;
+  el.innerHTML=
+    rowx('Sweden · NordDRG',`${esc(r.sweden.code)} <span class="cite">${esc(r.sweden.label_en||r.sweden.label)}</span>`)
+   +rowx('Poland · NFZ JGP group',j&&j.matched
+      ?`${esc(j.group.code)} <span class="cite">${esc(j.group.label_pl)} · ${j.group.points.toLocaleString('en-GB')} points</span>${conf(j)}`
+      :none(j))
+   +rowx('Poland · waiting-list benefit',r.poland_register.matched
+      ?`${esc(r.poland_register.benefit)}${conf(r.poland_register)}`:none(r.poland_register))
+   +rowx('Netherlands · NZa treatment',r.netherlands_register.matched
+      ?`${esc(r.netherlands_register.benefit)}${conf(r.netherlands_register)}`:none(r.netherlands_register))
+   +(pv?`<div class="cite" style="margin-top:12px">JGP points are from
+      <a href="${pv.url}" target="_blank" rel="noopener">${esc(pv.title)} ↗</a>, page ${pv.page}
+      (sha256 ${esc(pv.sha256)}). Points are not zloty — the contract price per point is not in
+      that document, so no Polish tariff is derived from them.</div><pre>${esc(pv.raw_line)}</pre>`:'')
+   +`<div class="cite" style="margin-top:10px">Each match is proposed by a model from a closed
+      list of the other country's entries and rejected if it is not on that list.</div>`;
+}
+
+async function showWhere(d){
+  const el=$('#where'), drg=d.drg;
+  let r;
+  try{ r=await(await fetch(`/api/providers?drg=${drg}&home=${HOME}`)).json(); }
+  catch(e){ r={error:String(e)}; }
+  if(cur!==drg||!$('#where')) return;
+  if(r.error){
+    el.className='card flag';
+    el.innerHTML=`<b>Could not look up providers.</b>
+      <div class="cite">${esc(r.error)}</div>${ncpLinks(d)}`;
+    return;
+  }
+  const hit=r.countries.filter(c=>c.matched);
+  const n=hit.reduce((a,c)=>a+c.total,0);
+  el.className=hit.length?'card':'card flag';
+  el.innerHTML=`
+    <b>${hit.length
+      ?`${n} providers in ${hit.length} countr${hit.length===1?'y':'ies'} offer this`
+      :'No provider list found for this procedure'}</b>
+    <div class="cite" style="margin-top:6px">Searched the national registers that
+      publish per-procedure data. Wait figures are what each provider reports.
+      ${d.destination.abroad_wait_is_assumption
+        ?`The ${d.destination.abroad_wait_days}-day figure in the comparison above is an
+          assumption — choose a provider to use its reported wait instead.`
+        :`The comparison above uses the wait reported by your chosen provider; confirm the
+          actual admission date with them.`}</div>
+    ${r.countries.map(countrySection).join('')}
+    <div class="cite" style="margin-top:16px"><b>Not searched:</b>
+      ${r.gaps.map(g=>`${esc(g.code)} (${esc(g.reason)})`).join('; ')}.
+      For these, ask the National Contact Point.</div>
+    ${ncpLinks(d)}`;
+  el.onclick=e=>{
+    const b=e.target.closest('.choose');
+    if(b){PROV=b.dataset.k||null;pick(d.drg);}
+  };
+  el.querySelectorAll('.ctry[data-c]').forEach(sec=>{
+    const c=r.countries.find(x=>x.code===sec.dataset.c), btn=sec.querySelector('.more');
+    if(btn) btn.onclick=()=>{
+      sec.querySelector('.plist').innerHTML=rows(c,true);
+      btn.remove();
+    };
+  });
+}
+
+async function makeDraft(drg,kind){
+  const b=$(kind==='referral'?'#go2':'#go'), o=$('#out'), label=b.textContent;
+  document.querySelectorAll('#go,#go2').forEach(x=>x.disabled=true);
+  b.textContent='Drafting and verifying…';
+  o.innerHTML='<div class="cite" style="margin-top:16px">Contacting Gemini…</div>';
+  try{
+    const w=$('#wait').value;
+    const d=await(await fetch(
+      `/api/draft?drg=${drg}&wait=${w}&home=${HOME}&kind=${kind}&patient=%5BPatient%20name%5D${
+        PROV?'&provider='+encodeURIComponent(PROV):''}`)).json();
+    const ok=!d.problems||!d.problems.length;
+    o.innerHTML=`<div style="margin-top:20px">
+      <span class="verdict ${ok?'ok':'bad'}">${ok
+        ?'Verified — safe to file'
+        :'Failed verification — do not file'}</span>
+      ${ok?'':`<div class="cite" style="margin-bottom:12px">${
+        d.problems.map(p=>'· '+p).join('<br>')}</div>`}
+      ${d.error?`<div class="cite">${esc(d.error)}</div>`:`<div class="cite" style="margin-bottom:8px">
+        To <b>${esc(d.addressee)}</b> · written in <b>${esc(d.language)}</b></div>`}
+      <div class="letter">${esc(d.letter||'')}</div>
+      <div class="cite" style="margin-top:18px">Checked: every figure traces to
+        the tariff documents above, no clinical claim, within length.</div>
+    </div>`;
+  }catch(e){ o.innerHTML='<div class="cite">Draft failed: '+e+'</div>'; }
+  document.querySelectorAll('#go,#go2').forEach(x=>x.disabled=false);
+  b.textContent=label;
+}
+
+let STEP=0;
+async function advance(delta){
+  const b=$('#step');
+  const w=$('#wait').value;
+  STEP=Math.max(0,STEP+delta);
+  b.disabled=true;
+  const d=await(await fetch(
+    `/api/replay?case=case-H02E-anna&step=${STEP}&drg=${cur}&wait=${w}`)).json();
+  STEP=d.step;
+  $('#day').textContent=d.label;
+  $('#of').textContent=`step ${d.step} of ${d.total_steps}`;
+  b.disabled=false;
+  b.textContent=d.step>=d.total_steps?'Replay complete':'Advance time';
+  if(d.step>=d.total_steps)b.disabled=true;
+
+  renderTimeline(d);
+}
+
+function renderTimeline(d){
+  const hit=new Set((d.actions||[]).map(a=>a.loop));
+  $('#fired').innerHTML=(d.actions||[]).map(a=>
+    `<span class="f ${a.action}">${esc(a.action)} — ${esc(a.why)}</span>`).join('');
+  $('#tl').innerHTML=d.loops.map(l=>`<div class="loop${hit.has(l.loop_id)?' hit':''}">
+      <span class="dot d-${l.status}"></span>
+      <div><div>${esc(l.description)}</div>
+        <div class="cite">${l.status}${l.evidence?' · '+esc(l.evidence):''}</div></div>
+      <span class="ty">${l.loop_type}</span></div>`).join('')
+    +`<div class="log">`+d.events.map(e=>`<div class="ev${
+        e.action==='loop_retracted'?' ret':''}"><span class="a">${e.action}</span>
+        <span>${esc(e.detail||'')}</span></div>`).join('')+`</div>`;
+}
+
+function renderProposals(d,list){
+  const el=$('#props'); if(!el) return;
+  el.innerHTML=list.map(p=>{
+    const x=p.payload, t=x.to, L=x.letter;
+    const addr=[t.address,t.postcode,t.locality,t.country].filter(Boolean).map(esc).join(', ');
+    return `<div class="card flag" style="margin-top:16px" data-p="${p.proposal_id}">
+      <b>The agent proposes switching provider</b>${x.simulated?' <span class="cite">(triggered by a simulated reading)</span>':''}
+      <div class="cite" style="margin-top:6px">${esc(x.reason)}</div>
+      <div class="line" style="margin-top:10px"><span>${esc(x.from.provider)} (${esc(x.from.country)})</span>
+        <b>${x.from.wait_days==null?'—':x.from.wait_days+' days'}</b></div>
+      <div class="line"><span><b>${esc(t.provider)}</b> (${esc(t.country)})<br>
+        <span class="cite">${addr}${t.phone?' · '+esc(t.phone):''}</span></span>
+        <b>${t.avg_wait_days} days</b></div>
+      ${x.days_saved_now!=null?`<div class="cite" style="margin-top:6px">Against your ${$('#wait').value}-day home wait that saves ${x.days_saved_now} days.</div>`:''}
+      <div class="cite" style="margin-top:6px">The register does not show whether this provider treats patients
+        under an S2 authorisation. After approving, send it the enquiry letter to find out.</div>
+      ${L&&L.text?`<details style="margin-top:10px"><summary class="cite" style="cursor:pointer">Replacement application
+        (${esc(L.language||'')}, to ${esc(L.addressee||'')}) —
+        <b>${(L.problems&&L.problems.length)?'failed verification':'verified'}</b></summary>
+        <div class="letter">${esc(L.text)}</div></details>`
+        :`<div class="cite" style="margin-top:10px">${esc((L&&L.error)||'No letter drafted.')}</div>`}
+      <div class="act" style="margin-top:12px">
+        <button data-act="approve">Approve switch</button>
+        <button class="ghost" data-act="reject">Keep ${esc(x.from.provider)}</button>
+        <span class="hint">Nothing changes until you approve.</span>
+      </div></div>`;}).join('');
+  el.querySelectorAll('button[data-act]').forEach(b=>b.onclick=async()=>{
+    const card=b.closest('[data-p]'), id=card.dataset.p, approve=b.dataset.act==='approve';
+    const p=list.find(x=>String(x.proposal_id)===id);
+    card.querySelectorAll('button').forEach(x=>x.disabled=true);
+    const q=`/api/watch?drg=${d.drg}&wait=${$('#wait').value}&home=${HOME}&action=${b.dataset.act}`
+      +`&provider=${encodeURIComponent(PROV)}&proposal=${id}`;
+    const r=await(await fetch(q)).json();
+    if(r.error){card.insertAdjacentHTML('beforeend','<div class="cite">'+esc(r.error)+'</div>');return}
+    if(approve){PROV=p.payload.to.key;pick(d.drg);}
+    else{renderProposals(d,r.proposals||[]);renderTimeline(r);}
+  });
+}
+
+async function liveWatch(d,action,simulate,simTariff){
+  const w=$('#wait').value, btn=$('#chk'), sim=$('#sim'), wk=$('#wk'), obs=$('#obs');
+  if(action!=='open'){
+    btn.disabled=sim.disabled=wk.disabled=true;
+    obs.textContent=action==='wake'?'Re-checking sources…':simulate!=null?'Simulating…':'Reading the national register…';
+  }
+  const q=`/api/watch?drg=${d.drg}&wait=${w}&home=${HOME}&action=${action}`
+    +`&provider=${encodeURIComponent(PROV)}${simulate!=null?'&simulate='+encodeURIComponent(simulate):''}${simTariff?'&simulate_tariff='+encodeURIComponent(simTariff):''}`;
+  const r=await(await fetch(q)).json();
+  btn.disabled=sim.disabled=wk.disabled=false;
+  if(r.error){obs.textContent=r.error;return}
+  const o=r.observation;
+  if(o){
+    obs.innerHTML=o.wait_days==null
+      ?`${esc(o.provider)}: ${esc(o.source||'no wait reported')}.`
+      :`<b>${esc(o.provider)}</b> reports <b>${o.wait_days} days</b> (plan assumed ${o.filed_wait_days},
+        escalates above ${o.threshold_days}) — ${o.simulated
+          ?'<b>simulated</b>, not register data'
+          :esc(o.source)+', updated '+esc(o.register_updated||'n/a')}.`;
+  }
+  if(r.sources){
+    obs.innerHTML+=`<div class="cite" style="margin-top:6px">Sources: ${r.sources.map(s=>
+      esc(s.source)+' '+(s.unreachable?'unreachable':s.baseline?'baseline recorded':s.changed?'<b>changed</b>':'unchanged')).join(' · ')}.${
+      r.home_queue?` Sweden's median wait ${r.home_queue.median_days} days (${esc(r.home_queue.month)}).`:''}${
+      r.tariff?` Tariff moved ${r.tariff.change_pct}%${r.tariff.simulated?' (<b>simulated</b>)':' (re-ingested)'}.`:''}</div>`;
+  }
+  renderProposals(d,r.proposals||[]);
+  $('#day').textContent=o?'Live — checked '+new Date().toLocaleTimeString('en-GB'):$('#day').textContent;
+  renderTimeline(r);
+}
+
+async function loadCountries(){
+  COUNTRIES=await(await fetch('/api/countries')).json();
+  $('#home').innerHTML=COUNTRIES.map(c=>`<option value="${c.code}"${
+    c.code===HOME?' selected':''}>${c.name}${c.has_tariffs?'':' — no tariffs yet'}</option>`).join('');
+  applyCountry();
+}
+function applyCountry(){
+  const c=COUNTRIES.find(x=>x.code===HOME)||{guarantee_days:90};
+  GUAR=c.guarantee_days;
+  $('#guar').innerHTML=`<b>${c.guarantee_name}</b> — ${c.guarantee_days} days,
+    ${c.binding?'statutory':'agreed norm'}. ${c.note}`;
+  breach();
+}
+$('#home').onchange=e=>{HOME=e.target.value;applyCountry();if(cur)pick(cur);};
+$('#q').oninput=e=>load(e.target.value);
+$('#wait').oninput=e=>{$('#wv').textContent=e.target.value;breach();if(cur)pick(cur);};
+fetch('/api/cohort').then(r=>r.json()).then(c=>{
+  if(c.procedure_count)$('#stat').innerHTML=
+    `<b>${c.procedure_count}</b> procedures · median <b>${eur(c.median_eur)}</b> to front<br>
+     <b>${c.above_threshold['5000']}</b> of them over €5,000`;});
+
+const qp=new URLSearchParams(location.search);
+if(qp.get('wait')){$('#wait').value=qp.get('wait');$('#wv').textContent=qp.get('wait');}
+if(qp.get('home'))HOME=qp.get('home').toUpperCase();
+if(qp.get('provider'))PROV=qp.get('provider');
+loadCountries().then(()=>load('')).then(()=>{if(qp.get('drg'))pick(qp.get('drg'));});
+</script>
+</body></html>
