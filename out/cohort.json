@@ -1,0 +1,25 @@
+{
+  "source": {
+    "source_id": "se_norddrg_2025",
+    "publisher": "Samverkansnamnden Stockholm-Gotland / Region Stockholm",
+    "title": "Bilaga 1 Utomregional prislista Nord DRG-CC, somatisk vard 2025",
+    "url": "https://www.regionstockholm.se/4ade31/contentassets/915b67a74a4545e0bbc5e8fd226c81bd/bilaga-1-utomregional-prislista-nord-drg-cc-somatisk-vard-2025.pdf",
+    "year": 2025,
+    "country": "SE",
+    "local_path": "data/raw/norddrg_2025.pdf",
+    "sha256": "793494b4e256b6f72884e3559b6e01159a8a01f0c1c05fd423c52edea79b8a88"
+  },
+  "procedure_count": 1438,
+  "inpatient_count": 799,
+  "median_eur": 3979.21,
+  "p75_eur": 7860.17,
+  "p95_eur": 22575.45,
+  "max_eur": 233635.98,
+  "aggregate_eur": 10349880.17,
+  "above_threshold": {
+    "1000": 961,
+    "5000": 613,
+    "10000": 257,
+    "25000": 64
+  }
+}
