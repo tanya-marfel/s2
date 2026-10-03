@@ -1,0 +1,41 @@
+# Secrets - never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Generated artifacts
+out/*
+# ...except the small JSON the deployed UI reads at runtime
+!out/se_tariffs.json
+!out/se_labels_en.json
+!out/cohort.json
+!out/timeline_snapshot.json
+!out/nfz_match.json
+!out/nl_waits.json
+!out/nl_match.json
+!out/pl_jgp.json
+!out/jgp_match.json
+!out/se_wait_match.json
+
+# Downloaded source documents (large, re-fetchable)
+data/raw/
+
+# Local tooling / agent runtime scratch
+.cua-driver/
+.pi/
+system/
+
+# Demo notes, not part of the submission
+DEMO.md
+
+# Vercel
+.vercel/
